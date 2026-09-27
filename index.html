@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>蘇和子の縁視初手</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* ===== 単一テーマ（夜の藍）で固定 ===== */
+:root{
+  color-scheme: dark;
+  --bg:#191b27;
+  --bg-2:#212435;
+  --line:#34384d;
+  --ink:#ece6da;
+  --ink-soft:#b9b2a6;
+  --ink-faint:#8a8579;
+  --accent:#d6b98a;
+  --accent-ink:#1d1b16;
+  --rose:#c9a3b4;
+  --display:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{
+  margin:0;color:var(--ink);font-family:var(--body);
+  font-size:16px;line-height:1.9;letter-spacing:.02em;
+  padding-inline:20px;padding-block:0 48px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:460px;margin:0 auto}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* ヘッダー */
+.brand{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-block:20px 8px;font-size:12px;color:var(--ink-faint);letter-spacing:.12em;
+}
+.brand b{font-family:var(--display);font-weight:500;color:var(--ink-soft);font-size:14px;letter-spacing:.2em}
+
+/* 画面 */
+.screen{animation:fade .5s ease both}
+@keyframes fade{from{opacity:.001;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.screen{animation:none}}
+
+/* 入口 */
+.moon{
+  width:88px;height:88px;border-radius:50%;margin:36px auto 28px;
+  background:radial-gradient(circle at 62% 38%, #f3ead8 0 34%, transparent 35%),
+             radial-gradient(circle at 50% 50%, rgba(214,185,138,.18) 0 60%, transparent 61%);
+  box-shadow:0 0 60px rgba(214,185,138,.12);
+}
+h1{
+  font-family:var(--display);font-weight:700;font-size:27px;line-height:1.6;
+  text-align:center;margin:0 0 20px;text-wrap:balance;letter-spacing:.06em;
+}
+.lead{color:var(--ink-soft);font-size:15px;margin:0 0 28px}
+.lead p{margin:0 0 .9em}
+.meta{
+  display:flex;justify-content:center;gap:18px;font-size:12px;color:var(--ink-faint);
+  letter-spacing:.1em;margin-bottom:28px;
+}
+.btn{
+  display:block;width:100%;text-align:center;text-decoration:none;
+  border:0;border-radius:999px;padding:16px 20px;font-weight:700;font-size:16px;letter-spacing:.1em;
+  background:var(--accent);color:var(--accent-ink);
+  transition:transform .15s ease, filter .15s ease;
+}
+.btn:hover{filter:brightness(1.06)}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:500}
+.btn.line{background:#06c755;color:#fff}
+.note{font-size:12px;color:var(--ink-faint);text-align:center;margin-top:14px;line-height:1.7}
+
+/* 質問 */
+.progress{display:flex;gap:6px;margin:28px 0 30px}
+.progress i{flex:1;height:2px;background:var(--line);border-radius:2px}
+.progress i.on{background:var(--accent)}
+.qnum{font-family:var(--display);color:var(--accent);font-size:13px;letter-spacing:.3em;margin:0 0 6px}
+.qlead{color:var(--ink-soft);font-size:14px;margin:0 0 10px}
+h2{font-family:var(--display);font-weight:700;font-size:22px;line-height:1.6;margin:0 0 26px;text-wrap:balance}
+.opts{display:grid;gap:12px}
+.opt{
+  text-align:left;background:var(--bg-2);border:1px solid var(--line);border-radius:14px;
+  padding:16px 18px;font-size:15.5px;line-height:1.6;
+  transition:border-color .15s ease, background .15s ease;
+}
+.opt:hover{border-color:var(--ink-faint)}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:#2a2a36}
+.back{
+  background:none;border:0;color:var(--ink-faint);font-size:13px;margin-top:26px;padding:6px 0;letter-spacing:.08em;
+}
+
+/* 確認 */
+.summary{list-style:none;padding:0;margin:0 0 28px;display:grid;gap:10px}
+.summary li{
+  display:grid;grid-template-columns:3.2em 1fr;gap:8px;font-size:14.5px;
+  border-bottom:1px solid var(--line);padding-block:0 10px;
+}
+.summary span{color:var(--accent);font-family:var(--display)}
+.stack{display:grid;gap:12px}
+
+/* 結果 */
+.eyebrow{font-size:12px;color:var(--ink-faint);letter-spacing:.2em;text-align:center;margin:36px 0 10px}
+.typename{
+  font-family:var(--display);font-weight:700;font-size:25px;line-height:1.6;text-align:center;
+  margin:0 0 30px;text-wrap:balance;letter-spacing:.06em;
+}
+.typename small{display:block;font-size:13px;color:var(--accent);letter-spacing:.3em;font-weight:500;margin-bottom:6px}
+.opener{color:var(--ink-soft);font-size:15px;margin:0 0 22px}
+.voice{font-family:var(--display);font-size:17px;line-height:2.1;margin:0}
+.voice p{margin:0 0 1.1em}
+.voice .core{color:var(--rose)}
+.divider{display:flex;justify-content:center;gap:10px;margin:34px 0;color:var(--ink-faint)}
+.divider i{width:4px;height:4px;border-radius:50%;background:currentColor}
+.point{
+  border:1px solid var(--line);border-radius:16px;padding:20px 20px 6px;background:var(--bg-2);
+}
+.point h3{font-size:13px;letter-spacing:.2em;color:var(--accent);margin:0 0 8px;font-weight:500}
+.point p{margin:0 0 14px;font-size:15px}
+.bridge{font-family:var(--display);font-size:17px;line-height:2.1}
+.bridge p{margin:0 0 1em}
+.bridge .sign{font-size:19px;color:var(--ink)}
+.offer{
+  margin-top:30px;border-radius:18px;padding:26px 22px;
+  background:linear-gradient(180deg,#26283a,#1f2130);border:1px solid #4a4658;
+}
+.offer .want{color:var(--ink-soft);font-size:14.5px;margin:0 0 18px}
+.offer h3{font-family:var(--display);font-size:24px;margin:0 0 2px;letter-spacing:.2em}
+.offer .kind{font-size:12px;color:var(--ink-faint);letter-spacing:.2em;margin:0 0 16px}
+.offer ul{margin:0 0 16px;padding:0;list-style:none;display:grid;gap:6px;font-size:15px}
+.offer li{display:flex;gap:10px}
+.offer li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:.8em}
+.offer .scope{font-size:13px;color:var(--ink-soft);margin:0 0 18px}
+.price{display:flex;align-items:baseline;gap:10px;margin:0 0 18px}
+.price b{font-family:var(--display);font-size:34px;color:var(--accent);font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.price span{font-size:12px;color:var(--ink-soft);letter-spacing:.08em}
+.save{margin-top:26px}
+.save p{font-size:13px;color:var(--ink-soft);margin:0 0 10px;text-align:center}
+.once{
+  font-size:13px;color:var(--ink-soft);border:1px dashed var(--line);border-radius:12px;
+  padding:12px 14px;margin:24px 0 0;
+}
+footer{font-size:11px;color:var(--ink-faint);text-align:center;margin-top:40px;line-height:1.8}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="brand"><b>蘇和子</b><span>縁視初手</span></header>
+  <main id="app" aria-live="polite"></main>
+  <footer>縁視初手は、あなたの答えから読み取れることをお伝えするものです。<br>彼の本音そのものは、個別の鑑定で視ます。</footer>
+</div>
+
+<script>
+/* =========================================================
+   設定：ここだけ書き換えれば運用できます
+   ========================================================= */
+const CONFIG = {
+  // 公式LINEのベーシックID（@から始まるもの）
+  lineId: "@xxxxxxx",
+  // STORESの光明眼視 商品ページURL
+  storesUrl: "https://example.stores.jp/items/xxxxxxxx",
+  // 結果をLINEに送るときの文言（プロラインのキーワード応答でタグ付け）
+  lineKeyword: (type) => `縁視初手${type}`,
+  // 価格表示
+  priceLabel: "980円",
+  priceNote: "LINE友だち限定・初回のみ"
+};
+
+/* =========================================================
+   質問
+   ========================================================= */
+const QUESTIONS = [
+  { key:"rel", lead:"まず、その人のことを教えてください。", q:"その人は、あなたにとってどんな人ですか？",
+    opts:[["koibito","付き合っている人"],["otto","夫・パートナー"],["kongai","既婚者の彼・言えない関係"],["aimai","曖昧な関係・片思い"],["fukuen","別れた彼・忘れられない人"]] },
+  { key:"hook", lead:"", q:"今いちばん引っかかっているのは？",
+    opts:[["renraku","連絡が減った・そっけない"],["fuitchi","言うことと態度が合わない"],["saki","この関係をどうしたいのか"],["yomenai","何を考えているか読めない"]] },
+  { key:"type", lead:"", q:"今のあなたに、いちばん近いのは？",
+    opts:[["A","確かめたいけど、聞くのが怖い"],["B","動いて悪化するのが怖い"],["C","離れたいのに、離れられない"],["D","自分がどうしたいか分からない"]] },
+  { key:"want", lead:"最後の質問です。", q:"彼について、本当に知りたいことは？",
+    opts:[["omoi","私をどう思っているのか"],["tsumori","この関係をどうするつもりか"],["konosaki","この先、二人はどうなるのか"],["nokori","まだ私を想っているのか"]] }
+];
+
+/* =========================================================
+   結果の文面
+   ========================================================= */
+const OPENER = {
+  koibito:"付き合っているのに、気持ちが分からない。近くにいるからこそ、聞けないことってありますよね。",
+  otto:"一緒に暮らしていても、相手の本音が見えなくなることはあります。夫婦だからこそ、今さら聞けないこともある。",
+  kongai:"誰にも話せない関係の中で、ひとりで考え続けてきたんですよね。ここでは、関係の形であなたを決めつけたりはしません。",
+  aimai:"はっきりした名前のない関係ほど、彼の一言や態度を何度も考え直してしまうものです。",
+  fukuen:"終わったはずなのに、まだ気持ちが残っている。忘れられないのには、ちゃんと理由があります。"
+};
+
+const TYPES = {
+  A:{ name:"答えより、答え合わせが怖い人",
+      body:[
+        "あなたが怖いのは、彼の答えそのものじゃないのかもしれません。",
+        "<span class='core'>聞いてしまったら、「自分だけが本気だった」と分かってしまうかもしれない。そっちの方が、ずっと怖い。</span>",
+        "だから聞けない。聞かないまま、彼の返信や態度を何度も思い返して、ひとりで答え合わせをしている。",
+        "疲れるのは当然です。答えの出ない問題を、ずっとひとりで解いているんですから。"
+      ]},
+  B:{ name:"動けないまま、止まっている人",
+      body:[
+        "今のあなたは「待っている」というより、<span class='core'>「動けなくなっている」</span>に近い状態です。",
+        "連絡したら重いと思われるかもしれない。聞いたら、終わってしまうかもしれない。",
+        "動かないことで関係を守っているつもりなのに、実際は何も分からないまま、時間だけが過ぎていく。",
+        "いちばん苦しいのは、たぶんそこですよね。"
+      ]},
+  C:{ name:"離れたいのに、離れられない人",
+      body:[
+        "頭では、離れた方がいいかもしれないと分かっている。それでも離れられない。",
+        "それは、彼が好きだから、だけではないように思います。",
+        "<span class='core'>ここまで彼に向けてきた時間や気持ちを、「なかったこと」にするのが怖い。</span>",
+        "離れられないのは、あなたが弱いからではありません。それだけのものを、この関係に預けてきたからです。"
+      ]},
+  D:{ name:"自分の気持ちまで見えなくなった人",
+      body:[
+        "彼の気持ちが分からない。そう思って考え続けているうちに、もう一つ分からなくなったものがあります。<span class='core'>あなた自身が、本当はどうしたいのか。</span>",
+        "続けたいのか、離れたいのか、はっきりさせたいのか。考えるほど、ぐちゃぐちゃになる。",
+        "これは、あなたがおかしいからではありません。相手の本音が見えないまま考え続けたら、誰でもこうなります。",
+        "だから先に必要なのは、自分の気持ちを整理することじゃないんです。足場になる彼の本音が分からないままでは、自分の答えも出せませんから。"
+      ]}
+};
+
+const POINT = {
+  renraku:"連絡の回数より、返ってきたときの中身を見てください。短い返事でも、あなたが前に話したことを覚えているなら、気持ちの線はまだ切れていないことが多いです。連絡が減ったから気持ちが冷めた、とは限りません。",
+  fuitchi:"言葉と態度がずれるとき、見るべきは優しいときの態度ではなく、あなたが困ったときに彼がどう動いたかです。好きと言うことと、大事にすることは別です。",
+  saki:"先の話を避ける人の本音は、はぐらかした「あと」に出やすいです。話を逸らしたあとに優しくなるのか、距離を取るのか。そこに、彼がこの関係をどう扱っているかが出ます。",
+  yomenai:"本音を見せない人ほど、小さな「例外」に気持ちが出ます。普段はしないのに、あなたにだけしたこと。あなたにだけ話したこと。一度、思い出してみてください。"
+};
+
+const WANT = {
+  omoi:"彼があなたを、本当はどう思っているのか。そこから視ていきます。",
+  tsumori:"彼がこの関係をどうするつもりでいるのか。言葉にしていない部分まで視ていきます。",
+  konosaki:"二人がこの先、どちらへ流れやすいのか。今の位置から視ていきます。",
+  nokori:"彼の中に、あなたへの気持ちがどれくらい残っているのか。そこから視ていきます。"
+};
+
+/* =========================================================
+   状態と保存（1回限り：この端末・ブラウザ単位）
+   ========================================================= */
+const STORE_KEY = "sowako_shindan_v1";
+const load = () => { try { return JSON.parse(localStorage.getItem(STORE_KEY) || "null"); } catch(e){ return null; } };
+const save = (v) => { try { localStorage.setItem(STORE_KEY, JSON.stringify(v)); } catch(e){} };
+const clear = () => { try { localStorage.removeItem(STORE_KEY); } catch(e){} };
+
+// テスト用：URL末尾に #reset を付けて開くと、保存した結果を消せます
+if (location.hash === "#reset") { clear(); history.replaceState(null, "", location.pathname); }
+
+let answers = {};
+let step = 0;
+const app = document.getElementById("app");
+const esc = (s) => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const label = (qi, val) => (QUESTIONS[qi].opts.find(o => o[0] === val) || [,""])[1];
+const toTop = () => window.scrollTo({ top: 0, behavior: "auto" });
+
+function render(html){ app.innerHTML = `<section class="screen">${html}</section>`; toTop(); }
+
+/* 入口 */
+function intro(){
+  render(`
+    <div class="moon" aria-hidden="true"></div>
+    <p class="eyebrow">蘇和子の縁視初手（えんし しょて）</p>
+    <h1>彼の気持ちが分からなくて、<br>ぐちゃぐちゃになっているあなたへ</h1>
+    <div class="lead">
+      <p>4つの質問に答えるだけ。1分ほどで終わります。</p>
+      <p>今のあなたが、いちばん何に苦しんでいるのか。そして、彼の本音が出やすいのはどこなのか。回答から読み取れることをお伝えします。</p>
+    </div>
+    <div class="meta"><span>全4問</span><span>約1分</span><span>一度だけ</span></div>
+    <button class="btn" id="start">縁視初手をはじめる</button>
+    <p class="note">正しい答えはありません。<br>今の気持ちにいちばん近いものを選んでください。</p>
+  `);
+  document.getElementById("start").onclick = () => { step = 0; answers = {}; question(); };
+}
+
+/* 質問 */
+function question(){
+  const Q = QUESTIONS[step];
+  const bars = QUESTIONS.map((_, i) => `<i class="${i <= step ? "on" : ""}"></i>`).join("");
+  render(`
+    <div class="progress" aria-hidden="true">${bars}</div>
+    <p class="qnum">Q${step + 1} / ${QUESTIONS.length}</p>
+    ${Q.lead ? `<p class="qlead">${esc(Q.lead)}</p>` : ""}
+    <h2>${esc(Q.q)}</h2>
+    <div class="opts" role="group" aria-label="${esc(Q.q)}">
+      ${Q.opts.map(([v, t]) => `<button class="opt" data-v="${v}" aria-pressed="${answers[Q.key] === v}">${esc(t)}</button>`).join("")}
+    </div>
+    <button class="back" id="back">← ${step === 0 ? "はじめに戻る" : "ひとつ前の質問へ"}</button>
+  `);
+  app.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+    answers[Q.key] = b.dataset.v;
+    b.setAttribute("aria-pressed", "true");
+    setTimeout(() => { if (step < QUESTIONS.length - 1) { step++; question(); } else { confirmView(); } }, 180);
+  });
+  document.getElementById("back").onclick = () => { if (step === 0) intro(); else { step--; question(); } };
+}
+
+/* 確認 */
+function confirmView(){
+  render(`
+    <div class="progress" aria-hidden="true">${QUESTIONS.map(() => `<i class="on"></i>`).join("")}</div>
+    <p class="qnum">確認</p>
+    <h2>この回答で進みますか？</h2>
+    <ul class="summary">
+      ${QUESTIONS.map((Q, i) => `<li><span>Q${i + 1}</span>${esc(label(i, answers[Q.key]))}</li>`).join("")}
+    </ul>
+    <div class="stack">
+      <button class="btn" id="go">この回答で結果を見る</button>
+      <button class="btn ghost" id="redo">最初から答え直す</button>
+    </div>
+    <p class="note">縁視初手は一度だけです。<br>選び間違いがあれば、ここで答え直せます。</p>
+  `);
+  document.getElementById("go").onclick = () => {
+    const record = { ...answers, at: new Date().toISOString() };
+    save(record);
+    result(record, false);
+  };
+  document.getElementById("redo").onclick = () => { step = 0; answers = {}; question(); };
+}
+
+/* 結果 */
+function result(r, returning){
+  const T = TYPES[r.type];
+  const utm = `utm_source=line&utm_medium=shindan&utm_campaign=type${r.type}`;
+  const storesHref = CONFIG.storesUrl + (CONFIG.storesUrl.includes("?") ? "&" : "?") + utm;
+  const lineText = CONFIG.lineKeyword(r.type);
+  const lineHref = `https://line.me/R/oaMessage/${encodeURIComponent(CONFIG.lineId)}/?${encodeURIComponent(lineText)}`;
+
+  render(`
+    ${returning ? `<p class="once">縁視初手は一度だけです。以前のあなたの結果をもう一度表示しています。あのときから状況が変わったなら、そこは私が直接視ます。</p>` : ""}
+    <p class="eyebrow">あなたの縁視初手</p>
+    <p class="typename"><small>TYPE ${r.type}</small>${esc(T.name)}</p>
+
+    <p class="opener">${esc(OPENER[r.rel])}</p>
+    <div class="voice">${T.body.map(p => `<p>${p}</p>`).join("")}</div>
+
+    <div class="divider" aria-hidden="true"><i></i><i></i><i></i></div>
+
+    <div class="point">
+      <h3>彼の本音が出やすいところ</h3>
+      <p>ひとつだけ、見てほしいところがあります。</p>
+      <p>${esc(POINT[r.hook])}</p>
+    </div>
+
+    <div class="divider" aria-hidden="true"><i></i><i></i><i></i></div>
+
+    <div class="bridge">
+      <p>ここまでは、あなたの答えから読み取れることです。</p>
+      <p>でも、彼が本当はあなたをどう思っているのか。二人の関係が今どこにあって、この先どちらへ流れやすいのか。</p>
+      <p>それは、4つの質問では分かりません。</p>
+      <p class="sign">そこは、私が視ます。</p>
+    </div>
+
+    <div class="offer">
+      <p class="want">${esc(WANT[r.want])}</p>
+      <h3>光明眼視</h3>
+      <p class="kind">蘇和子の霊視鑑定</p>
+      <ul>
+        <li>彼の気持ちと、あなた自身の本音</li>
+        <li>二人の関係の、今の現在地</li>
+        <li>なぜ、この悩みや迷いが生まれているのか</li>
+        <li>この先、向かいやすい流れ</li>
+      </ul>
+      <p class="scope">今どこにいて、どちらへ流れやすいのかを視る鑑定です。</p>
+      <div class="price"><b>${esc(CONFIG.priceLabel)}</b><span>${esc(CONFIG.priceNote)}</span></div>
+      <a class="btn" href="${storesHref}" target="_blank" rel="noopener">鑑定を申し込む</a>
+    </div>
+
+    <div class="save">
+      <p>この結果は、LINEに送っておくといつでも読み返せます。</p>
+      <a class="btn line" href="${lineHref}" target="_blank" rel="noopener">結果をLINEに送る</a>
+      <p class="note">LINEが開いたら、そのまま送信してください。<br>「${esc(lineText)}」と送られます。</p>
+    </div>
+  `);
+}
+
+/* 起動 */
+const saved = load();
+if (saved && saved.type && TYPES[saved.type]) { result(saved, true); } else { intro(); }
+</script>
+</body>
+</html>
