@@ -1,9 +1,4 @@
-<!doctype html>
-<html lang="ja">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="robots" content="noindex">
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>蘇和子の縁視初手</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -149,8 +144,6 @@ h2{font-family:var(--display);font-weight:700;font-size:22px;line-height:1.6;mar
 }
 footer{font-size:11px;color:var(--ink-faint);text-align:center;margin-top:40px;line-height:1.8}
 </style>
-</head>
-<body>
 
 <div class="wrap">
   <header class="brand"><b>蘇和子</b><span>縁視初手</span></header>
@@ -165,13 +158,8 @@ footer{font-size:11px;color:var(--ink-faint);text-align:center;margin-top:40px;l
 const CONFIG = {
   // 公式LINEのベーシックID（@から始まるもの）
   lineId: "@xxxxxxx",
-  // STORESの光明眼視 商品ページURL
-  storesUrl: "https://example.stores.jp/items/xxxxxxxx",
-  // 結果をLINEに送るときの文言（プロラインのキーワード応答でタグ付け）
-  lineKeyword: (type) => `縁視初手${type}`,
-  // 価格表示
-  priceLabel: "980円",
-  priceNote: "LINE友だち限定・初回のみ"
+  // LINEに戻るときに送る文言（プロラインのキーワード応答で、タグ付けとフロント鑑定の案内を返す）
+  lineKeyword: (type) => `縁視初手${type}`
 };
 
 /* =========================================================
@@ -329,8 +317,6 @@ function confirmView(){
 /* 結果 */
 function result(r, returning){
   const T = TYPES[r.type];
-  const utm = `utm_source=line&utm_medium=shindan&utm_campaign=type${r.type}`;
-  const storesHref = CONFIG.storesUrl + (CONFIG.storesUrl.includes("?") ? "&" : "?") + utm;
   const lineText = CONFIG.lineKeyword(r.type);
   const lineHref = `https://line.me/R/oaMessage/${encodeURIComponent(CONFIG.lineId)}/?${encodeURIComponent(lineText)}`;
 
@@ -361,23 +347,9 @@ function result(r, returning){
 
     <div class="offer">
       <p class="want">${esc(WANT[r.want])}</p>
-      <h3>光明眼視</h3>
-      <p class="kind">蘇和子の霊視鑑定</p>
-      <ul>
-        <li>彼の気持ちと、あなた自身の本音</li>
-        <li>二人の関係の、今の現在地</li>
-        <li>なぜ、この悩みや迷いが生まれているのか</li>
-        <li>この先、向かいやすい流れ</li>
-      </ul>
-      <p class="scope">今どこにいて、どちらへ流れやすいのかを視る鑑定です。</p>
-      <div class="price"><b>${esc(CONFIG.priceLabel)}</b><span>${esc(CONFIG.priceNote)}</span></div>
-      <a class="btn" href="${storesHref}" target="_blank" rel="noopener">鑑定を申し込む</a>
-    </div>
-
-    <div class="save">
-      <p>この結果は、LINEに送っておくといつでも読み返せます。</p>
-      <a class="btn line" href="${lineHref}" target="_blank" rel="noopener">結果をLINEに送る</a>
-      <p class="note">LINEが開いたら、そのまま送信してください。<br>「${esc(lineText)}」と送られます。</p>
+      <p class="scope">続きは、LINEでお伝えします。<br>下のボタンからLINEに戻り、表示された言葉をそのまま送ってください。</p>
+      <a class="btn line" href="${lineHref}" target="_blank" rel="noopener">LINEに戻って続きを受け取る</a>
+      <p class="note">「${esc(lineText)}」と送られます。<br>送ると、この結果もLINEに残ります。</p>
     </div>
   `);
 }
@@ -386,5 +358,5 @@ function result(r, returning){
 const saved = load();
 if (saved && saved.type && TYPES[saved.type]) { result(saved, true); } else { intro(); }
 </script>
-</body>
-</html>
+
+</body></html>
